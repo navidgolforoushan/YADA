@@ -33,6 +33,12 @@ namespace YADA.WebApi.Controllers
         public async Task<ActionResult<ProfileDto>> Get(Guid profileId)
         {
             var profileFromRepo = await _profileReporsitory.GetProfileByIdAsync(profileId);
+
+            if(profileFromRepo is null)
+            {
+                return NotFound();
+            }
+
             return Ok(_mapper.Map<ProfileDto>(profileFromRepo));
         }
     }
