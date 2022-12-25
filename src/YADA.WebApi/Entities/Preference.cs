@@ -1,7 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace YADA.WebApi.Entities
 {
+    [DebuggerDisplay("AGE=[{AgeMin},{AgeMax}], Dist={Distance}")]
+
     public class Preference
     {
 

@@ -6,5 +6,7 @@ namespace YADA.WebApi.Entities
     {
         public int Id { get; set; }
 
+        public bool SendEmail { get; set; } = false;
+
     }
 }

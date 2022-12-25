@@ -1,4 +1,5 @@
-﻿using YADA.WebApi.DbContexts;
+﻿using Microsoft.EntityFrameworkCore;
+using YADA.WebApi.DbContexts;
 using YADA.WebApi.Entities;
 
 namespace YADA.WebApi.Services
@@ -34,7 +35,10 @@ namespace YADA.WebApi.Services
 
         public async Task<Profile> GetProfileByIdAsync(Guid profileId)
         {
-            var res = await _context.Profiles.FindAsync(1);
+            var res = await _context.Profiles
+                .Include(x => x.Preference)
+                .Include(x=>x.Pictures)
+                .FirstOrDefaultAsync(x=>x.ProfileId==profileId);
             return res!;
         }
 
