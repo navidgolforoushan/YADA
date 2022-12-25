@@ -1,7 +1,6 @@
 ﻿using YADA.WebApi.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using YADA.WebApi.Services;
-using YADA.WebApi.Entities;
 
 namespace YADA.WebApi
 {
