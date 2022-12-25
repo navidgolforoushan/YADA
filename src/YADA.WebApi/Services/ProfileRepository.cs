@@ -7,10 +7,17 @@ namespace YADA.WebApi.Services
     internal class ProfileRepository : IProfileReporsitory
     {
         private readonly ApplicationContext _context;
+        private readonly int _maximumRowReturnAllowance;
 
-        public ProfileRepository(ApplicationContext context)
+
+        public ProfileRepository(ApplicationContext context, IConfiguration configuration)
         {
-            this._context = context;
+            _context = context ??
+                throw new ArgumentException(nameof(context));
+            var maximumRowReturnAllowanceAsString = configuration["DataAccess:MaximumRowReturnAllowance"] ??
+                throw new ArgumentException(nameof(configuration));
+
+            _maximumRowReturnAllowance = int.Parse(maximumRowReturnAllowanceAsString);
         }
 
         public void AddPicture(Picture picture)
@@ -37,8 +44,8 @@ namespace YADA.WebApi.Services
         {
             var res = await _context.Profiles
                 .Include(x => x.Preference)
-                .Include(x=>x.Pictures)
-                .FirstOrDefaultAsync(x=>x.ProfileId==profileId);
+                .Include(x => x.Pictures)
+                .FirstOrDefaultAsync(x => x.ProfileId == profileId);
             return res!;
         }
 
@@ -50,7 +57,7 @@ namespace YADA.WebApi.Services
         public async Task<IEnumerable<Profile>> GetProfilesAsync()
         {
             var res = await _context.Profiles
-                .Take(200)
+                .Take(_maximumRowReturnAllowance)
                 .OrderBy(x => x.Setting)
                 .ToListAsync();
             return res;
