@@ -348,3 +348,9 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+src/YADA.WebApi/database.db
+
+src/YADA.WebApi/database.db-shm
+
+src/YADA.WebApi/database.db-wal
