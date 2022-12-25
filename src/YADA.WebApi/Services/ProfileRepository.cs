@@ -47,9 +47,13 @@ namespace YADA.WebApi.Services
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<Profile>> GetProfilesAsync()
+        public async Task<IEnumerable<Profile>> GetProfilesAsync()
         {
-            throw new NotImplementedException();
+            var res = await _context.Profiles
+                .Take(200)
+                .OrderBy(x => x.Setting)
+                .ToListAsync();
+            return res;
         }
 
         public Task<bool> PrfileExistAsync(Guid profileId)
