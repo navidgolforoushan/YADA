@@ -1,9 +1,17 @@
-﻿using YADA.WebApi.Entities;
+﻿using YADA.WebApi.DbContexts;
+using YADA.WebApi.Entities;
 
 namespace YADA.WebApi.Services
 {
     internal class ProfileRepository : IProfileReporsitory
     {
+        private readonly ApplicationContext _context;
+
+        public ProfileRepository(ApplicationContext context)
+        {
+            this._context = context;
+        }
+
         public void AddPicture(Picture picture)
         {
             throw new NotImplementedException();
@@ -24,9 +32,10 @@ namespace YADA.WebApi.Services
             throw new NotImplementedException();
         }
 
-        public Task<Profile> GetProfileByIdAsync(Guid profileId)
+        public async Task<Profile> GetProfileByIdAsync(Guid profileId)
         {
-            throw new NotImplementedException();
+            var res = await _context.Profiles.FindAsync(1);
+            return res!;
         }
 
         public Task<IEnumerable<Picture>> GetProfilePicturesByIdAsync(Guid profileId)
