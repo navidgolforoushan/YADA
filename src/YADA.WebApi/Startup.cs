@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using YADA.WebApi.Services;
 using Serilog;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
 
 namespace YADA.WebApi
 {
@@ -20,9 +22,26 @@ namespace YADA.WebApi
             builder.Logging.AddSerilog(logger);
 
             builder.Services.AddHttpContextAccessor();
+            
             builder.Services.AddControllers(o =>
-                o.ReturnHttpNotAcceptable = true)
-                .AddXmlSerializerFormatters();
+            {
+                o.ReturnHttpNotAcceptable = true;
+            })
+            .ConfigureApiBehaviorOptions(o =>
+            {
+                o.InvalidModelStateResponseFactory = context =>
+                {
+                    var problemDetailsFactory = context.HttpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
+                    var problemDetails = problemDetailsFactory.CreateValidationProblemDetails(context.HttpContext, context.ModelState, 422);
+
+                    return new ObjectResult(new { ProblemId = $"[ConnectionId={context.HttpContext.Connection.Id}]", problemDetails })
+                    {
+                        StatusCode = StatusCodes.Status422UnprocessableEntity
+                    };
+                };
+            })
+            .AddXmlSerializerFormatters();
+
             builder.Services.AddScoped<IProfileReporsitory, ProfileRepository>();
             builder.Services.AddDbContext<ApplicationContext>(o =>
                 o.UseSqlite(@"Data Source=database.db"));

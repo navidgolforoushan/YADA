@@ -44,12 +44,17 @@ namespace YADA.WebApi
                 UserName = "nimpx34"
             };
 
-
-
-            await context.Settings.AddRangeAsync(profile1.Setting, profile2.Setting);
-            await context.Preferences.AddRangeAsync(profile1.Preference, profile2.Preference);
-            await context.Pictures.AddRangeAsync(profile1.Pictures.Concat(profile2.Pictures));
-            await context.Profiles.AddRangeAsync(profile1, profile2);
+            var profiles = new List<Profile> { profile1, profile2 };
+            foreach (var profile in profiles)
+            {
+                if(context.Profiles.Find(profile.ProfileId) is null)
+                {
+                    await context.Settings.AddAsync(profile?.Setting!);
+                    await context.Preferences.AddAsync(profile?.Preference!);
+                    await context.Pictures.AddRangeAsync(profile?.Pictures!);
+                    await context.Profiles.AddAsync(profile!);
+                }
+            }
         }
     }
 }

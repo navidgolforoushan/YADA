@@ -6,5 +6,9 @@ var app = builder
     .ConfigureServices()
     .ConfigurePipeline();
 
-await app.ResetDatabaseAsync();
+if (args.Contains("-db-reset") && app.Environment.IsDevelopment())
+{
+    await app.ResetDatabaseAsync();
+}
+
 app.Run();

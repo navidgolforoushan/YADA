@@ -6,7 +6,7 @@ namespace YADA.WebApi.Services
     {
         Task<IEnumerable<Profile>> GetProfilesAsync();
         Task<Profile> GetProfileByIdAsync(Guid profileId);
-        void AddProfile(Profile profile);
+        Task<Profile> AddProfile(Profile profile);
         void UpdateProfile(Profile profile);
         void DeleteProfile(Profile profile);
 

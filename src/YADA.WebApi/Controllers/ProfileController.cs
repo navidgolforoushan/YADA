@@ -29,17 +29,29 @@ namespace YADA.WebApi.Controllers
             return Ok(_mapper.Map<IEnumerable<ProfileDto>>(profilesFromRepo));
         }
 
-        [HttpGet("{profileId:guid}")]
+        [HttpGet("{profileId:guid}", Name = "GetProfile")]
         public async Task<ActionResult<ProfileDto>> Get(Guid profileId)
         {
             var profileFromRepo = await _profileReporsitory.GetProfileByIdAsync(profileId);
 
-            if(profileFromRepo is null)
+            if (profileFromRepo is null)
             {
                 return NotFound();
             }
 
             return Ok(_mapper.Map<ProfileDto>(profileFromRepo));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ProfileDto>> Post(ProfileForPostDto profile)
+        {
+            var profileEntity = _mapper.Map<Entities.Profile>(profile);
+            profileEntity = await _profileReporsitory.AddProfile(profileEntity);
+            await _profileReporsitory.SaveAsync();
+            var profileToReturn = _mapper.Map<ProfileDto>(profileEntity);
+            var routeValue = new { profileId = profileEntity.ProfileId };
+            return CreatedAtRoute("GetProfile", routeValue, profileToReturn);
+
         }
     }
 }

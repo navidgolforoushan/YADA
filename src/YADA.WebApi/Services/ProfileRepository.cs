@@ -25,9 +25,10 @@ namespace YADA.WebApi.Services
             throw new NotImplementedException();
         }
 
-        public void AddProfile(Profile profile)
+        public async Task<Profile> AddProfile(Profile profile)
         {
-            throw new NotImplementedException();
+            var res= await _context.Profiles.AddAsync(profile);
+            return res.Entity;
         }
 
         public void DeletePicture(Picture picture)
@@ -68,9 +69,10 @@ namespace YADA.WebApi.Services
             throw new NotImplementedException();
         }
 
-        public Task<bool> SaveAsync()
+        public async Task<bool> SaveAsync()
         {
-            throw new NotImplementedException();
+            var numbderOfWriteToDatabase=await _context.SaveChangesAsync();
+            return numbderOfWriteToDatabase > 0;
         }
 
         public void UpdatePicture(Picture picture)
