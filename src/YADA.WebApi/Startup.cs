@@ -22,7 +22,7 @@ namespace YADA.WebApi
             builder.Logging.AddSerilog(logger);
 
             builder.Services.AddHttpContextAccessor();
-            
+
             builder.Services.AddControllers(o =>
             {
                 o.ReturnHttpNotAcceptable = true;
@@ -31,12 +31,23 @@ namespace YADA.WebApi
             {
                 o.InvalidModelStateResponseFactory = context =>
                 {
-                    var problemDetailsFactory = context.HttpContext.RequestServices.GetRequiredService<ProblemDetailsFactory>();
-                    var problemDetails = problemDetailsFactory.CreateValidationProblemDetails(context.HttpContext, context.ModelState, 422);
+                    var problemDetailsFactory = context.HttpContext.RequestServices
+                    .GetRequiredService<ProblemDetailsFactory>();
+                    var validationProblemDetails = problemDetailsFactory
+                    .CreateValidationProblemDetails(
+                        context.HttpContext,
+                        context.ModelState);
 
-                    return new ObjectResult(new { ProblemId = $"[ConnectionId={context.HttpContext.Connection.Id}]", problemDetails })
+                    validationProblemDetails.Detail = "See errors field or details.";
+                    validationProblemDetails.Instance = context.HttpContext.Request.Path;
+
+                    validationProblemDetails.Type = "https://yada.com/modelvalidationproblem";
+                    validationProblemDetails.Status = StatusCodes.Status422UnprocessableEntity;
+                    validationProblemDetails.Title = "Validation Error";
+
+                    return new UnprocessableEntityObjectResult(validationProblemDetails)
                     {
-                        StatusCode = StatusCodes.Status422UnprocessableEntity
+                        ContentTypes = { "application/problem+json" }
                     };
                 };
             })
