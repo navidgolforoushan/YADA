@@ -354,3 +354,5 @@ src/YADA.WebApi/database.db
 src/YADA.WebApi/database.db-shm
 
 src/YADA.WebApi/database.db-wal
+
+src/YADA.Mobile/public/assets/demo_*

@@ -1,0 +1,7 @@
+{
+  "name": "jumpstart",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

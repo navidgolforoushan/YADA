@@ -1,0 +1,56 @@
+.head{
+    font-weight: bold;
+    font-size: 1.8em;
+}
+
+.line-end{
+    border-right: rgba(128, 128, 128, 0.445) solid 1px;
+}
+
+.line-bottom{
+    border-bottom: rgba(128, 128, 128, 0.445) solid 1px;
+}
+
+.bio-label{
+    font-weight: bold;
+    font-size: 1.5em;
+    line-height: 1.5em;
+    text-align: left;
+}
+
+.black-toolbar{
+    background-color: black;
+    min-height: 2em;
+    color: white;
+}
+
+ion-col {
+    text-align: center;
+  }
+
+ion-font{
+    font-size: 64px;
+}
+
+ion-avatar img{
+    display: block;
+    position: absolute;
+    height: 32px;
+    width: 32px;
+    top: 5px;
+    left: 10px;
+}
+
+  ion-fab-button::part(native) {
+    background-color: #ffffff;
+    border-radius: 50%;
+    color: black;
+  }
+      
+  ion-fab-button::part(native):hover::after {
+    background-color: #f33b3b;
+  }
+  
+  ion-fab-button::part(native):active::after {
+    background-color: #ff00006e;
+  }
