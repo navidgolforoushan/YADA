@@ -1,0 +1,24 @@
+.sender-message-card{
+    padding-right: 1em;
+}
+
+.reciever-message-card{
+    padding-left: 1em;
+}
+
+ion-input.message-send-input{
+
+    --color: rgb(71, 71, 71);
+    --placeholder-color: rgb(219, 219, 219);
+    --placeholder-opacity: .8;
+    --padding-bottom: 10px;
+    --padding-end: 10px;
+    --padding-start: 10px;
+    --padding-top: 10px;
+    text-align: start;
+    background-color: #1b1b1b;
+    padding: 0.5em 0;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-left: 0.5em;
+}

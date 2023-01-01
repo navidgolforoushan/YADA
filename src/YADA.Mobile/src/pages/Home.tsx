@@ -2,7 +2,6 @@ import {
   IonContent,
   IonHeader,
   IonPage,
-  IonTitle,
   IonToolbar,
   IonButton,
   IonFooter,
@@ -10,7 +9,6 @@ import {
   IonIcon,
   IonImg,
   IonCardHeader,
-  IonCardTitle,
   IonCardSubtitle,
   IonCard,
   IonCardContent,
@@ -20,29 +18,34 @@ import {
   IonRow,
   IonCol,
   IonAvatar,
+  IonNavLink,
+  IonItem,
+  IonLabel,
 } from "@ionic/react";
 import {
   accessibilityOutline,
   arrowBackOutline,
   beerOutline,
-  briefcase,
   briefcaseOutline,
   chatbubbleEllipsesOutline,
   closeOutline,
-  ellipsisHorizontal,
-  ellipsisVertical,
   heartOutline,
   homeOutline,
   iceCreamOutline,
   locationOutline,
   logoHackernews,
   optionsOutline,
-  settingsOutline,
   starOutline,
 } from "ionicons/icons";
+import pageTransitionAnimationSwipLeft, {
+  pageTransitionAnimationSwipRight,
+} from "../animations/PageTransitionAnimation";
+import FooterMain from "../components/FooterMain";
 
 import TestComponent from "../components/TestContainer";
+import Chat from "./Chat";
 import "./Home.css";
+import Options from "./Options";
 
 const Home: React.FC = () => {
   return (
@@ -52,12 +55,15 @@ const Home: React.FC = () => {
           <IonToolbar>
             <IonToolbar>
               <IonButtons slot="primary">
-                <IonButton color="dark">
-                  <IonIcon slot="icon-only" icon={arrowBackOutline}></IonIcon>
-                </IonButton>
-                <IonButton color="dark">
-                  <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
-                </IonButton>
+                <IonNavLink
+                  routerDirection="forward"
+                  component={() => <Options />}
+                  routerAnimation={pageTransitionAnimationSwipLeft}
+                >
+                  <IonButton color="dark">
+                    <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
+                  </IonButton>
+                </IonNavLink>
               </IonButtons>
               <IonButtons slot="secondary" class="head">
                 Megan
@@ -192,40 +198,7 @@ const Home: React.FC = () => {
           </IonFabButton>
         </IonFab>
       </IonContent>
-      <IonFooter class="ion-no-border">
-        <IonGrid class="ion-no-padding">
-          <IonRow class="black-toolbar ion-justify-content-around">
-            <IonCol>
-              <IonButton fill="clear" color="light">
-                <IonIcon icon={logoHackernews}></IonIcon>
-              </IonButton>
-            </IonCol>
-            <IonCol>
-              <IonButton fill="clear" color="light">
-                <IonIcon icon={starOutline}></IonIcon>
-              </IonButton>
-            </IonCol>
-            <IonCol>
-              <IonButton fill="clear" color="light">
-                <IonIcon icon={heartOutline}></IonIcon>
-              </IonButton>
-            </IonCol>
-            <IonCol>
-              <IonButton fill="clear" color="light">
-                <IonIcon icon={chatbubbleEllipsesOutline}></IonIcon>
-              </IonButton>
-            </IonCol>
-            <IonCol>
-            <IonAvatar>
-              <img
-                alt="me!"
-                src="/assets/demp_me/avatar.jpg"
-              />
-            </IonAvatar>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-      </IonFooter>
+      <FooterMain />
     </IonPage>
   );
 };
